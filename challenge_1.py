@@ -56,6 +56,7 @@ class Graph:
         """
         self.vertList = {}
         self.numVertices = 0
+        self.numEdges = 0
 
     def add_vertex(self, key):
         """add a new vertex object to the graph with
@@ -95,6 +96,8 @@ class Graph:
 
         f_vert.add_neighbor(t_vert, cost)
 
+        self.numEdges += 1
+
 
     def get_vertices(self):
         """return all the vertices in the graph"""
@@ -106,3 +109,60 @@ class Graph:
         graph, to use sytax: for v in g
         """
         return iter(self.vertList.values())
+
+
+def main(text_file):
+    # Create the graph
+    graph = Graph()
+
+    # Opens and Parses through the text file to set up Graph
+    with open(text_file, "r") as open_file:
+
+        line_counter = 1
+        for line in open_file:
+
+            # if we are at second line
+            if line_counter == 2:
+                # get the vertex keys that are seperated by commas and add them to graph
+                for key in line.strip().split(","):
+                    graph.add_vertex(key)
+
+            elif line_counter > 2:
+                # first arugment before comma is - from
+                from_v = line.strip("()\n").split(',')[0]
+                # second arugment after comma is - to
+                to_v = line.strip("()\n").split(',')[1]
+                # third argument is - weight
+                weight = line.strip("()\n").split(',')[2]
+                
+                # add edge from 'from' to 'to' with 'weight'
+                graph.add_edge(from_v, to_v, weight)
+
+            # add to line counter after reading this line
+            line_counter += 1
+            
+        return graph
+
+import argparse
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser(description="Create a graph from text files")
+    parser.add_argument("filename", help="The name of the file to read from")
+    args = parser.parse_args()
+
+    if not args.filename:
+        raise Exception("You didn't provide a file argument!")
+
+    g = main(args.filename)
+
+
+    # Output the vertices & edges
+    # Print vertices
+    print("# Verticies:", g.numVertices, "\n")
+    print("# Edges:", g.numEdges, "\n")
+
+    print("Edge List:")
+    for v in g:
+        for w in v.get_neighbors():
+            print("( %s , %s , %s )" % (v.get_id(), w.get_id(), v.get_edge_weight(w)))
