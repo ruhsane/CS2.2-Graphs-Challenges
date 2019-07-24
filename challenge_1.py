@@ -54,6 +54,7 @@ class Graph:
     def __init__(self):
         """ initializes a graph object with an empty dictionary.
         """
+        self.directed = False
         self.vertList = {}
         self.numVertices = 0
         self.numEdges = 0
@@ -121,10 +122,21 @@ def main(text_file):
         line_counter = 1
         for line in open_file:
 
+            clean_line = line.strip()
+
+            if line_counter == 1:
+                
+                if clean_line.upper() == 'G':
+                    graph.directed = False
+                elif clean_line.upper() == 'D':
+                    graph.directed = True
+                else:
+                    raise Exception("File must begin with G or D, found %s" % clean_line)
+
             # if we are at second line
             if line_counter == 2:
                 # get the vertex keys that are seperated by commas and add them to graph
-                for key in line.strip().split(","):
+                for key in clean_line.split(","):
                     graph.add_vertex(key)
 
             elif line_counter > 2:
