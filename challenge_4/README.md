@@ -1,4 +1,4 @@
-## Problem
+# Problem 1
 Knapsack - find the most amount of items with the most value that you can fit in a bag with a fixed capacity.
 
 ## Reference
@@ -19,3 +19,22 @@ get the total value of the bag without the current item until it reaches capacit
 
 5. Solve original problem - reconstruct from the sub-problems
 calculate to see which one of the above two calculations gives me higher value, and choose accordingly. At the end, choose the combination with the highest value.
+
+# Problem 2
+Partition - Partition problem is to determine whether a given set can be partitioned into two subsets such that the sum of elements in both subsets is same.
+
+Examples:
+```
+arr[] = {1, 5, 11, 5}
+Output: true 
+The array can be partitioned as {1, 5, 5} and {11}
+
+arr[] = {1, 5, 3}
+Output: false 
+The array cannot be partitioned into equal sum sets.
+```
+
+## Reference
+https://www.geeksforgeeks.org/partition-problem-dp-18/
+
+
