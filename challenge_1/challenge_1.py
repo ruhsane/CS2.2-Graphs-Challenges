@@ -113,6 +113,10 @@ class Graph:
 
 
 def main(text_file):
+    '''
+    reads file and make it into a graph object with respective properties.
+    '''
+
     # Create the graph
     graph = Graph()
 
