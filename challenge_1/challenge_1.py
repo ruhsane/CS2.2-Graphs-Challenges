@@ -111,8 +111,7 @@ class Graph:
         """
         return iter(self.vertList.values())
 
-
-def main(text_file):
+def make_graph_from_file(text_file):
     '''
     reads file and make it into a graph object with respective properties.
     '''
@@ -144,20 +143,31 @@ def main(text_file):
                     graph.add_vertex(key)
 
             elif line_counter > 2:
-                # first arugment before comma is - from
-                from_v = line.strip("()\n").split(',')[0]
-                # second arugment after comma is - to
-                to_v = line.strip("()\n").split(',')[1]
-                # third argument is - weight
-                weight = line.strip("()\n").split(',')[2]
-                
+                # make an array of the connected edges with the weight, split by comma
+                edge_list = line.strip("()\n").split(',')
+
+                # first item in the list is the 'from' vertex
+                from_v = edge_list[0]
+                # second item in the list is the 'to' vertex
+                to_v = edge_list[1]
+                # third argument is the weight (optional)
+                if len(edge_list) == 3:
+                    weight = edge_list[2]
+                else:
+                    #set weight to 0 if there's no weight specified
+                    weight = 0
+
                 # add edge from 'from' to 'to' with 'weight'
                 graph.add_edge(from_v, to_v, weight)
+                # If it is a Graph and not a Digraph, add another edge in the opposite direction
+                if graph.directed == False:
+                    graph.add_edge(to_v,from_v,weight)
 
             # add to line counter after reading this line
             line_counter += 1
             
         return graph
+
 
 import argparse
 
@@ -170,7 +180,7 @@ if __name__ == "__main__":
     if not args.filename:
         raise Exception("You didn't provide a file argument!")
 
-    g = main(args.filename)
+    g = make_graph_from_file(args.filename)
 
 
     # Output the vertices & edges
