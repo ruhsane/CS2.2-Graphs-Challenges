@@ -118,3 +118,52 @@ class GraphTest(unittest.TestCase):
             graph.add_edge(fromVert, toVert, weight)
 
         self.assertEqual(graph.numEdges, 3)
+
+
+    def test_is_eulerian(self):
+        graph = Graph()
+
+        # Create test Verticies
+        v1,v2,v3 = Vertex("a"), Vertex("b"), Vertex("c")
+        # Add verticies
+        graph.add_vertex(v1)
+        graph.add_vertex(v2)
+        graph.add_vertex(v3)
+
+        # Create edges
+        edges = [
+            ("a", "b", 10),
+            ("b", "c", 10),
+            ("c", "a", 4),
+            ("c", "b", 2)
+        ]
+        # Add edges
+        for edge in edges:
+            fromVert, toVert, weight = edge
+            graph.add_edge(fromVert, toVert, weight)
+
+        self.assertFalse(graph.is_eulerian())
+
+        graph2 = Graph()
+        # Create test Verticies
+        ve1,ve2,ve3 = Vertex("a"), Vertex("b"), Vertex("c")
+        # Add verticies
+        graph2.add_vertex(ve1)
+        graph2.add_vertex(ve2)
+        graph2.add_vertex(ve3)
+
+        # Create edges
+        edges = [
+            ("a", "b", 10),
+            ("a", "c", 10),
+            ("b", "c", 10),
+            ("b", "a", 2),
+            ("c", "a", 4),
+            ("c", "b", 2)
+        ]
+        # Add edges
+        for edge in edges:
+            fromVert, toVert, weight = edge
+            graph2.add_edge(fromVert, toVert, weight)
+
+        self.assertTrue(graph2.is_eulerian())
